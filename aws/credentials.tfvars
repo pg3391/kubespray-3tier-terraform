@@ -1,8 +1,0 @@
-#AWS Access Key
-AWS_ACCESS_KEY_ID = "AKIAZXXK733AVFD6J7TB"
-#AWS Secret Key
-AWS_SECRET_ACCESS_KEY = "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"
-#EC2 SSH Key Name
-AWS_SSH_KEY_NAME = "Ruphiya-cluster"
-#AWS Region
-AWS_DEFAULT_REGION = "ap-south-1"
