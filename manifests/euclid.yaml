@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: euclid
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: euclid
+  template:
+    metadata:
+      labels:
+        app: euclid
+    spec:
+      containers:
+        - name: euclid-container
+          image: ghcr.io/stock-jarvis/euclid:StgV1
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: test-token
+

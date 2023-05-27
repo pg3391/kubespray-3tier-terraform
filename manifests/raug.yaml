@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raug
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raug
+  template:
+    metadata:
+      labels:
+        app: raug
+    spec:
+      containers:
+        - name: raug-container
+          image: ghcr.io/stock-jarvis/raug:stgv1
+          ports:
+            - containerPort: 8081
+      imagePullSecrets:
+        - name: test-token
+

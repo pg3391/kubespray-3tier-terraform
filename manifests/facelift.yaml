@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facelift
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facelift
+  template:
+    metadata:
+      labels:
+        app: facelift
+    spec:
+      containers:
+        - name: facelift-container
+          image: ghcr.io/stock-jarvis/facelift:dev
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: test-token
+
