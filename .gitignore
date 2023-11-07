@@ -1,3 +1,4 @@
+*.pem
 .vagrant
 *.retry
 **/vagrant_ansible_inventory
