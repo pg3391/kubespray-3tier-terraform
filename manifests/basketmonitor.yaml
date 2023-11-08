@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketmonitor
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basketmonitor
+  template:
+    metadata:
+      labels:
+        app: basketmonitor
+    spec:
+      containers:
+        - name: basketmonitor-container
+          image: ghcr.io/stock-jarvis/basketmonitor:stgv1
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: test-token
+

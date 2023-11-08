@@ -1,0 +1,28 @@
+[all]
+ip-10-0-1-159.us-west-2.compute.internal ansible_host=10.0.1.159
+ip-10-0-1-78.us-west-2.compute.internal ansible_host=10.0.1.78
+
+bastion ansible_host=34.221.167.93
+
+[bastion]
+bastion ansible_host=34.221.167.93
+
+[kube_control_plane]
+ip-10-0-1-159.us-west-2.compute.internal
+
+[kube_node]
+ip-10-0-1-78.us-west-2.compute.internal
+
+[etcd]
+ip-10-0-1-159.us-west-2.compute.internal
+
+[calico_rr]
+
+[k8s_cluster:children]
+kube_node
+kube_control_plane
+calico_rr
+
+[k8s_cluster:vars]
+apiserver_loadbalancer_domain_name="kubernetes-nlb-Dev-Cluster-66a6ffa9e634b7c2.elb.us-west-2.amazonaws.com"
+
