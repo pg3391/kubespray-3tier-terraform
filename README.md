@@ -70,3 +70,6 @@ cd ~/Projects/kubespray_workspace/kubespray-2.15.1/contrib/terraform/aws/
   terraform destroy -var-file=credentials.tfvars
 
 - External Reference: https://www.densify.com/kubernetes-tools/kubespray/
+![Arch-1](3tier-arch-Docqs.png)
+
+![Arch-2](3tier-arch-k.png)
