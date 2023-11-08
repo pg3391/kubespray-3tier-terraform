@@ -25,7 +25,7 @@ data "aws_ami" "distro" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
@@ -59,6 +59,11 @@ variable "aws_vpc_cidr_block" {
 }
 
 variable "aws_cidr_subnets_private" {
+  description = "CIDR Blocks for private subnets in Availability Zones"
+  type        = list(string)
+}
+
+variable "aws_cidr_subnets_private1" {
   description = "CIDR Blocks for private subnets in Availability Zones"
   type        = list(string)
 }
