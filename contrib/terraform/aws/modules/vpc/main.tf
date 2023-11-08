@@ -55,6 +55,20 @@ resource "aws_subnet" "cluster-vpc-subnets-private" {
   }))
 }
 
+resource "aws_subnet" "backend-private-subnets" {
+  vpc_id            = aws_vpc.cluster-vpc.id
+  count             = length(var.aws_cidr_subnets_private1)
+  availability_zone = element(var.aws_avail_zones, count.index % length(var.aws_avail_zones))
+  cidr_block        = element(var.aws_cidr_subnets_private1, count.index)
+
+  tags = merge(var.default_tags, tomap({
+    Name = "kubernetes-${var.aws_cluster_name}-${element(var.aws_avail_zones, count.index)}-private"
+    "kubernetes.io/cluster/${var.aws_cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
+  }))
+}
+
+
 #Routing in VPC
 
 #TODO: Do we need two routing tables for each subnet for redundancy or is one enough?
@@ -86,6 +100,20 @@ resource "aws_route_table" "kubernetes-private" {
   }))
 }
 
+resource "aws_route_table" "backend-private" {
+  count  = length(var.aws_cidr_subnets_private1)
+  vpc_id = aws_vpc.cluster-vpc.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = element(aws_nat_gateway.cluster-nat-gateway.*.id, count.index)
+  }
+
+  tags = merge(var.default_tags, tomap({
+    Name = "Backend-${var.aws_cluster_name}-routetable-private-${count.index}"
+  }))
+}
+
 resource "aws_route_table_association" "kubernetes-public" {
   count          = length(var.aws_cidr_subnets_public)
   subnet_id      = element(aws_subnet.cluster-vpc-subnets-public.*.id, count.index)
@@ -96,6 +124,11 @@ resource "aws_route_table_association" "kubernetes-private" {
   count          = length(var.aws_cidr_subnets_private)
   subnet_id      = element(aws_subnet.cluster-vpc-subnets-private.*.id, count.index)
   route_table_id = element(aws_route_table.kubernetes-private.*.id, count.index)
+}
+resource "aws_route_table_association" "backend-private" {
+  count          = length(var.aws_cidr_subnets_private1)
+  subnet_id      = element(aws_subnet.backend-private-subnets.*.id, count.index)
+  route_table_id = element(aws_route_table.backend-private.*.id, count.index)
 }
 
 #Kubernetes Security Groups

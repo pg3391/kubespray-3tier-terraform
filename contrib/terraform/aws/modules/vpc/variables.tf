@@ -16,6 +16,11 @@ variable "aws_cidr_subnets_private" {
   type        = list(string)
 }
 
+variable "aws_cidr_subnets_private1" {
+  description = "CIDR Blocks for private subnets in Availability zones"
+  type        = list(string)
+}
+
 variable "aws_cidr_subnets_public" {
   description = "CIDR Blocks for public subnets in Availability zones"
   type        = list(string)
